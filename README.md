@@ -1,4 +1,4 @@
-# MobileNet_exe
+# MobileNet Exercise
 
 MobileNet is a mobile phone company. When a new customer becomes a subscriber, they are asked for the following information: Name/Surname, VAT number, address, type of customer (Individual, Professional, Company). Each customer can have one or more mobile connections. Each connection has a phone number, activation date, deactivation date if terminated and one of the following usage plans: Small, Medium, Large, Extra Large. Each usage plan has a fixed monthly fee, e.g., Small €10, Medium €20 etc.
 Every 1st of the month, MobileNet issues bills (or invoices) for its customers. Each customer's account has an account code, issue date, account amount and outstanding account balance (e.g., if the bill is €40 and the customer pays €25, the account amount will be €40, and the outstanding balance will be €15).

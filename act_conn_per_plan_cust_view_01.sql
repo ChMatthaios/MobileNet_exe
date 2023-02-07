@@ -1,7 +1,7 @@
 /*Create a view to create a report with the number of 
   active connections per user program and customer type.
 */
-CREATE OR REPLACE FORCE EDITIONABLE VIEW active_con_per_plan_type (
+CREATE OR REPLACE FORCE EDITIONABLE VIEW act_conn_per_plan_cust_view_01 (
     count_subs,
     plan_name,
     type_name

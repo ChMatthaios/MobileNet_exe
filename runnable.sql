@@ -6,20 +6,20 @@ END;
 BEGIN
     FOR i IN (
         SELECT
-            customer_afm
+            afm
         FROM
-            exe_customer
+            viewa2
     ) LOOP
         dbms_output.put_line(
-                            CASE mobilenet.balance_search(i.customer_afm)
-                                WHEN -1 THEN
-                                    'No active subscriptions for <'
-                                    || i.customer_afm
+                            CASE mobilenet.balance_search(i.afm)
+                                WHEN 0 THEN
+                                    'Nothing to pay for <'
+                                    || i.afm
                                     || '>'
                                 ELSE '<'
-                                     || i.customer_afm
+                                     || i.afm
                                      || '>	MUST PAY : '
-                                     || mobilenet.balance_search(i.customer_afm)
+                                     || mobilenet.balance_search(i.afm)
                             END
         );
     END LOOP;
@@ -27,55 +27,35 @@ BEGIN
     dbms_output.put_line('BALANCE SEARCH COMPLETED.');
 END;
 
---######################################-AFM PAYMENT-#######################################
 DECLARE
     l_num NUMBER(3, 0);
 BEGIN
     FOR i IN (
         SELECT
-            customer_afm
+            afm
         FROM
-            exe_customer
+            viewa2
     ) LOOP
         l_num := dbms_random.value(0, 50);
         dbms_output.put_line(
-                            CASE mobilenet.balance_search(i.customer_afm)
-                                WHEN -1 THEN
-                                    'No active subscriptions for <'
-                                    || i.customer_afm
+                            CASE mobilenet.balance_search(i.afm)
+                                WHEN 0 THEN
+                                    'Nothing to pay for <'
+                                    || i.afm
                                     || '>'
                                 ELSE '<'
-                                     || i.customer_afm
+                                     || i.afm
                                      || '>, '
                                      || l_num
                             END
         );
 
-        IF mobilenet.balance_search(i.customer_afm) <> -1 THEN
-            mobilenet.payment(i.customer_afm, l_num);
+        IF mobilenet.balance_search(i.afm) <> 0 THEN
+            mobilenet.payment(i.afm, l_num);
+            dbms_output.put_line('Your balance is : '
+                                 || mobilenet.balance_search(i.afm));
         END IF;
 
-    END LOOP;
-
-    dbms_output.put_line('PAYMENT COMPLETED.');
-END;
-
---####################################-NUMBER PAYMENT-######################################
-DECLARE
-    l_num NUMBER(3, 0);
-BEGIN
-    FOR i IN (
-        SELECT
-            subscription_number
-        FROM
-            exe_subscription
-    ) LOOP
-        l_num := dbms_random.value(0, 50);
-        dbms_output.put_line('<'
-                             || i.subscription_number
-                             || '>, '
-                             || l_num);
-        mobilenet.payment(i.subscription_number, l_num);
     END LOOP;
 
     dbms_output.put_line('PAYMENT COMPLETED.');

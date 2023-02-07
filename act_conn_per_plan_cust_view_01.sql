@@ -7,22 +7,22 @@ CREATE OR REPLACE FORCE EDITIONABLE VIEW act_conn_per_plan_cust_view_01 (
     type_name
 ) AS
     SELECT
-        COUNT(subscription_id) AS count_subs,
-        splan_name             AS plan_name,
-        ctype_name             AS type_name
+        COUNT(s.subscription_id) count_subs,
+        sp.splan_name            plan_name,
+        ct.ctype_name            type_name
     FROM
-             exe_subscription
-        JOIN exe_subs_pl_relation ON subs_id = subscription_id
-        JOIN exe_subscription_plan ON subs_pl_id = splan_id
-        JOIN exe_customer ON subscription_cid = customer_id
-        JOIN exe_customer_type ON customer_tid = ctype_id
+             exe_subscription s
+        JOIN exe_subs_pl_relation  spr ON subs_id = s.subscription_id
+        JOIN exe_subscription_plan sp ON spr.subs_pl_id = sp.splan_id
+        JOIN exe_customer          c ON s.subscription_cid = c.customer_id
+        JOIN exe_customer_type     ct ON c.customer_tid = ct.ctype_id
     WHERE
-        subscription_end_date IS NULL
+        s.subscription_end_date IS NULL
     GROUP BY
-        splan_name,
-        ctype_name
+        sp.splan_name,
+        ct.ctype_name
     ORDER BY
-        ctype_name;
+        ct.ctype_name;
 
 SELECT
     *

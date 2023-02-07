@@ -8,7 +8,7 @@ CREATE OR REPLACE EDITIONABLE PACKAGE mobilenet AUTHID current_user AS
     FUNCTION balance_search ( input_str IN VARCHAR2 ) RETURN NUMBER;
 
     PROCEDURE payment ( str_input IN exe_customer.customer_afm%TYPE,
-			                  c_amt     IN NUMBER );
+                        c_amt     IN exe_billing.bill_amount%TYPE );
 
     PROCEDURE reset_values;
 

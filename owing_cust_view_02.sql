@@ -4,7 +4,7 @@
   outstanding bill.
 */
 
-CREATE OR REPLACE FORCE EDITIONABLE VIEW viewa2 (
+CREATE OR REPLACE FORCE EDITIONABLE VIEW owing_cust_view_02 (
     afm,
     name,
     sum,

@@ -1,75 +1,91 @@
 --------------------------------------------------------
---  File created - 07-02-2023   
+--  File created - 07-02-2023
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table EXE_CUSTOMER_TYPE
 --------------------------------------------------------
-CREATE TABLE exe_customer_type (
-    ctype_id   NUMBER NOT NULL PRIMARY KEY,
-    ctype_name VARCHAR2(15) NOT NULL
+
+CREATE TABLE exe_customer_type
+(
+    ctype_id NUMBER NOT NULL PRIMARY KEY,
+    ctype_name VARCHAR2 (15) NOT NULL
 );
+
 --------------------------------------------------------
 --  DDL for Table EXE_SUBSCRIPTION_PLAN
 --------------------------------------------------------
-CREATE TABLE exe_subscription_plan (
-    splan_id   NUMBER NOT NULL PRIMARY KEY,
-    splan_name VARCHAR2(15) NOT NULL,
-    splan_fix  NUMBER NOT NULL
+
+CREATE TABLE exe_subscription_plan
+(
+    splan_id NUMBER NOT NULL PRIMARY KEY,
+    splan_name VARCHAR2 (15) NOT NULL,
+    splan_fix NUMBER NOT NULL
 );
+
 --------------------------------------------------------
 --  DDL for Table EXE_CUSTOMER
 --------------------------------------------------------
-CREATE TABLE exe_customer (
-    customer_id      NUMBER NOT NULL PRIMARY KEY,
-    customer_name    VARCHAR2(20) NOT NULL,
-    customer_afm     VARCHAR2(9) NOT NULL,
-    customer_address VARCHAR2(20) NOT NULL,
-    customer_tid     NUMBER NOT NULL,
-    CONSTRAINT c_t_fk FOREIGN KEY ( customer_tid )
-        REFERENCES exe_customer_type ( ctype_id )
+
+CREATE TABLE exe_customer
+(
+    customer_id NUMBER NOT NULL PRIMARY KEY,
+    customer_name VARCHAR2 (20) NOT NULL,
+    customer_afm VARCHAR2 (9) NOT NULL,
+    customer_address VARCHAR2 (20) NOT NULL,
+    customer_tid NUMBER NOT NULL,
+    CONSTRAINT c_t_fk FOREIGN KEY (customer_tid)
+        REFERENCES exe_customer_type (ctype_id)
 );
+
 --------------------------------------------------------
 --  DDL for Table EXE_SUBSCRIPTION
 --------------------------------------------------------
-CREATE TABLE exe_subscription (
-    subscription_id         NUMBER NOT NULL PRIMARY KEY,
+
+CREATE TABLE exe_subscription
+(
+    subscription_id NUMBER NOT NULL PRIMARY KEY,
     subscription_start_date DATE NOT NULL,
-    subscription_end_date   DATE,
-    subscription_cid        NUMBER NOT NULL,
-    subscription_number     VARCHAR2(10) DEFAULT '2101111111',
-    CONSTRAINT s_c_fk FOREIGN KEY ( subscription_cid )
-        REFERENCES exe_customer ( customer_id )
+    subscription_end_date DATE,
+    subscription_cid NUMBER NOT NULL,
+    subscription_number VARCHAR2 (10) DEFAULT '2101111111',
+    CONSTRAINT s_c_fk FOREIGN KEY (subscription_cid)
+        REFERENCES exe_customer (customer_id)
 );
+
 --------------------------------------------------------
 --  DDL for Table EXE_SUBS_PL_RELATION
 --------------------------------------------------------
-CREATE TABLE exe_subs_pl_relation (
-    rel_id             NUMBER NOT NULL,
-    subs_id            NUMBER NOT NULL,
-    subs_pl_id         NUMBER NOT NULL,
+
+CREATE TABLE exe_subs_pl_relation
+(
+    rel_id NUMBER NOT NULL,
+    subs_id NUMBER NOT NULL,
+    subs_pl_id NUMBER NOT NULL,
     subs_pl_start_date DATE NOT NULL,
-    subs_pl_end_date   DATE,
-    PRIMARY KEY ( rel_id,
-                  subs_pl_start_date ),
-    CONSTRAINT r_p_fk FOREIGN KEY ( subs_pl_id )
-        REFERENCES exe_subscription_plan ( splan_id ),
-    CONSTRAINT r_s_fk FOREIGN KEY ( subs_id )
-        REFERENCES exe_subscription ( subscription_id )
+    subs_pl_end_date DATE,
+    PRIMARY KEY (rel_id, subs_pl_start_date),
+    CONSTRAINT r_p_fk FOREIGN KEY (subs_pl_id)
+        REFERENCES exe_subscription_plan (splan_id),
+    CONSTRAINT r_s_fk FOREIGN KEY (subs_id)
+        REFERENCES exe_subscription (subscription_id)
 );
+
 --------------------------------------------------------
 --  DDL for Table EXE_BILLING
 --------------------------------------------------------
-CREATE TABLE exe_billing (
-    bill_id     NUMBER NOT NULL PRIMARY KEY,
-    bill_date   DATE NOT NULL,
+
+CREATE TABLE exe_billing
+(
+    bill_id NUMBER NOT NULL PRIMARY KEY,
+    bill_date DATE NOT NULL,
     bill_amount NUMBER NOT NULL,
-    bill_rem    NUMBER NOT NULL,
-    bill_cid    NUMBER NOT NULL,
-    bill_sid    NUMBER NOT NULL,
-    CONSTRAINT b_c_fk FOREIGN KEY ( bill_cid )
-        REFERENCES exe_customer ( customer_id ),
-    CONSTRAINT b_s_fk FOREIGN KEY ( bill_sid )
-        REFERENCES exe_subscription ( subscription_id )
+    bill_rem NUMBER NOT NULL,
+    bill_cid NUMBER NOT NULL,
+    bill_sid NUMBER NOT NULL,
+    CONSTRAINT b_c_fk FOREIGN KEY (bill_cid)
+        REFERENCES exe_customer (customer_id),
+    CONSTRAINT b_s_fk FOREIGN KEY (bill_sid)
+        REFERENCES exe_subscription (subscription_id)
 );
 -- INSERTING INTO EXE_CUSTOMER_TYPE
 INSERT INTO exe_customer_type VALUES (1,'PERSON');
